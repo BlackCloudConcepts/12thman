@@ -1,0 +1,42 @@
+<html>
+<head>
+	<link href='http://fonts.googleapis.com/css?family=Londrina+Outline' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Walter+Turncoat' rel='stylesheet' type='text/css'>
+</head>
+<body style="background-image:url(http://www.joomla-css.nl/images/joomla30/seamless-grass.jpg);background-repeat:repeat;font-family: 'Walter Turncoat', cursive;">
+	<div style="width:1024px;margin-left:auto;margin-right:auto;">
+		<div style="position:absolute;z-index:10;color:#333333;width:1004px;height:680px;padding:10px;overflow-y:auto;">
+			<div style="font-size:30pt;color:#000000;text-align:center;font-family: 'Londrina Outline', cursive;">
+				Fantasy Football "12th Man"
+			</div>
+			<div style="text-align:center;margin-top:10px;margin-bottom:10px;font-size:30pt;font-family: 'Londrina Outline', cursive;">
+				"<%= @leaguename %>"
+			</div>
+			<div style="float:left;margin-right:10px;">
+				<img src="<%= @teamlogo %>" height="40" />
+			</div>
+			<div style="float:left;">
+				"<%= @teamname %>"
+			</div>
+			<div style="clear:both;"></div>
+			<div>
+				<% @roster.each do |q| %>
+					<div style="float:left;width:35px;"><%= q['position'] %></div>
+					<div style="float:left;width:30px;">
+						<img src="<%= q['picture'] %>" height="25" />
+					</div>
+					<div style="float:left;margin-right:5px;"><%= q['name'] %></div>
+					<div style="float:left;">(<%= q['teamabbr'] %>)</div>
+					<div style="clear:both;"></div>
+				<% end %>
+			</div>
+			<hr>
+			<div>
+				<%= @output %>
+			</div>
+		</div>
+		<div style="position:absolute:z-index:5;border-radius:10px;background-color:#ffffff;opacity:0.7;filter:alpha(opacity=70);width:1024px;height:700px;"></div>
+	</div>
+
+</body>
+</html>

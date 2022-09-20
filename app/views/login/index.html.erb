@@ -1,0 +1,74 @@
+<html>
+<head>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+	<link href='http://fonts.googleapis.com/css?family=Londrina+Outline' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Walter+Turncoat' rel='stylesheet' type='text/css'>
+</head>
+<body style="background-image:url(/images/grass.jpg);background-repeat:repeat;font-family: 'Walter Turncoat', cursive;">
+	<div style="width:1024px;margin-left:auto;margin-right:auto;">
+		<div style="position:absolute;z-index:10;color:#333333;width:1004px;height:680px;padding:10px;overflow-y:auto;">
+			<div style="font-size:30pt;color:#000000;text-align:center;font-family: 'Londrina Outline', cursive;">
+				Fantasy Football "12th Man"
+			</div>
+			<div>
+				<span style="color:#EF6140;">12th Man is a fantasy football prediction engine.</span>  Yahoo, ESPN, etc have their experts who offer up projected numbers on a weekly basis.  Not sure about you but I rarely agree with the experts, and they are rarely accurate.  Of course, I'm off quite often as well ... but its my money in the fantasy pool so I want to go down swinging on my own terms.  <br><br>
+
+				
+
+				12th Man takes into account the following factors in calculation of the 12th Man number.
+				<ul>
+					<li>Total season points</li>
+					<li>Points scored recently (last 3 weeks)</li>
+					<li>Upcoming opposing defensive rank</li>
+					<li>Bonus for exceptional touchdown output recently</li>
+					<li>Bonus for above average touches recently</li>
+					<li>... more on the way
+				</ul>
+
+				12th Man will allow you to adjust and weight the above stats to determine what you think is the most important factor in deciding your lineup.<br><br>
+				To get started, you need to get a code from Yahoo giving us access to pull some of the data from your Fantasy Football Team and League.  <span style="color:#EF6140;">Don't worry, we only have READ access, and will never make any changes to your team.</span>  Click below to get started.<br><br>
+
+				<span style="color:#EF6140;">Disclaimer:</span> This site is designed to deal with a standard league containing, QB, RB, WR, TE, and DEF Team.  There are many ways to setup a league and some formats will not work for the time being such as those with defensive players or those without any of the previously mentioned positions.<br><br>
+
+				<span style="color:#EF6140;">Initial load time will take up to 30 seconds while we pull all of the necessary stats from Yahoo.  Please be patient.<br><br>
+			</div>
+			<div style="margin-left:425px;"><%= link_to "Get Me My Code", @request_token.authorize_url, :target => "_blank", :id => "login" %></div>
+			<div style="margin-left:350px;">
+				<div style="float:left;"><input style="width:50px;" type="text" id="verificationcode"></input></div>
+				<div style="margin-top:2px;margin-left:10px;background-color:#EF6140;color:#ffffff;font-weight:bold;padding:3px;font-size:8pt;cursor:pointer;border-radius:3px;text-align:center;width:250px;float:left;" id="verificationbutton">I got my code and I'm ready to dominate!!!</div>
+				<div style="clear:both;"></div>
+			</div>
+		</div>
+		<div style="position:absolute:z-index:5;border-radius:10px;background-color:#ffffff;opacity:0.7;filter:alpha(opacity=70);width:1024px;height:1000px;"></div>
+	</div>
+</body>
+</html>
+
+<script language="javascript">
+	$(document).ready(function(){
+
+		$('#verificationcode').hide();
+		$('#verificationbutton').hide();
+		$('#login').css('color', '#EF6140');
+
+		$('#login').click(function(){
+			$('#login').hide();
+			$('#verificationcode').show();
+			$('#verificationbutton').show();
+		});
+
+		// default settings
+		var vals = {
+                        'seasonpoints' : 2,
+                        'recentpoints' : 8,
+                        'defrank' : 7,
+                        'recenttds' : 6,
+                        'recenttouches' : 7,
+                };
+                vals = JSON.stringify(vals);	
+
+		$('#verificationbutton').click(function(){
+			location = "/home/"+$('#verificationcode').val()+"/"+vals;
+		});
+	});
+</script>

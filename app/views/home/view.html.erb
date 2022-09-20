@@ -1,0 +1,244 @@
+<html>
+<head>
+	<link href='http://fonts.googleapis.com/css?family=Londrina+Outline' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Walter+Turncoat' rel='stylesheet' type='text/css'>
+	
+	<!-- http://docs.dhtmlx.com/doku.php?id=dhtmlxslider:initialization_of_dhtmlxslider -->
+	<link href='/external/dhtmlxSlider/dhtmlxslider.css' rel='stylesheet' type='text/css'>
+	<script src='/external/dhtmlxSlider/dhtmlxcommon.js'></script>
+	<script src='/external/dhtmlxSlider/dhtmlxslider.js'></script>
+</head>
+<body style="background-image:url(/images/grass.jpg);background-repeat:repeat;font-family: 'Walter Turncoat', cursive;">
+	<div style="width:1024px;margin-left:auto;margin-right:auto;">
+		<div style="background-image:url(/images/opacity70white.png);background-repeat:repeat;border-radius:10px;margin-bottom:15px;">
+			<div style="font-family: 'Londrina Outline', cursive;font-size:30pt;color:#000000;text-align:center;">Yahoo Fantasy Football "12th Man"</div>
+			<div style="text-align:center;color:#069E15;">League: <%= @leaguename %></div>
+			<div style="text-align:center;color:#EF6140;font-size:10pt;width:744px;margin-left:140px;">* 12th Man Ratio is determined by a variety of player factors.  It does not coorelate to fantasy points in any way and are not comparable across different weighting formulas.  Higher is better, lower is worse.  Simple as that!</div>
+			<div style="float:left;margin-left:20px;">
+				<img src="<%= @teamlogo %>" height="40" style="border-radius:6px;"/>
+			</div>
+			<div style="float:left;margin-left:10px;margin-top:15px;width:298px;">
+				"<%= @teamname %>"
+			</div>
+			<div style="float:left;width:345px;margin-top:15px;">Available Players</div>
+			<div style="float:left;width:298px;margin-top:15px;">12th Man Ratio Factor Weighting</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div style="float:left;margin-right:20px;">
+			<%
+			@arrPosition.each do |p|
+			%>
+			<div style="width:298px;background-image:url(/images/opacity70white.png);background-repeat:repeat;border-radius:10px;padding:15px;margin-bottom:15px;">
+				<div style="text-decoration:underline;"><%= p['position'] %></div>
+				<% 
+				@roster.each do |q| 
+					if (q['position'] == p['position'])
+					%>
+						<div style="float:left;width:30px;">
+							<img src="<%= q['picture'] %>" height="25" />
+						</div>
+						<div style="float:left;margin-right:5px;"><%= q['name'] %></div>
+						<div style="float:left;">(<%= q['teamabbr'] %>)</div>
+						<div style="clear:both;"></div>
+						<div style="float:left;font-size:8pt;">
+							<div>12th Man Ratio: <span style="color:#EF6140;font-weight:bold;"><%= q['12thmannumber'] %></span></div>
+							<div>Total Pts: <%= q['seasonpoints'] %></div>
+							<div style="
+							<%
+							if (q['byeweek'] == @week.to_s)
+								concat "color:#ffffff;background-color:#F97070;padding-left:5px;padding-right:5px;"
+							end
+							%>">Bye Week:
+							<%= q['byeweek'] %></div>
+						</div>
+						<div style="float:left;font-size:8pt;margin-left:7px;">
+							<div>Last Week: <%= q['1ago'] %></div>
+							<div>2 Weeks Ago: <%= q['2ago'] %></div>
+							<div>3 Weeks Ago: <%= q['3ago'] %></div>
+						</div>
+        	                                <div style="float:left;font-size:8pt;margin-left:7px;">
+							<div>Recent TDs: <%= q['1ago_tds'].to_i+q['2ago_tds'].to_i+q['3ago_tds'].to_i %></div>
+							<div>Total T/O: <%= q['turnovers'] %></div>
+						</div>
+	                                        <div style="clear:both;margin-bottom:10px;"></div>
+					<%
+					end 
+				end 
+				%>
+			</div>
+			<%
+			end
+			%>
+		</div>
+		<div style="float:left;margin-right:20px;">
+			<%
+                       	@availableplayers.each do |q|
+                        %>
+			<div style="width:298px;background-image:url(/images/opacity70white.png);background-repeat:repeat;border-radius:10px;padding:15px;margin-bottom:15px;">
+				<div style="text-decoration:underline;"><%= q['position'] %></div>
+				<%
+				count = 0
+				q['stats'].each do |s|
+					if (@week != s['byeweek'].to_i) # don't suggest players who are on bye week
+						%>
+						<div style="float:left;width:30px;">
+							<img src="<%= s['picture'] %>" height="25" />
+						</div>
+						<div style="float:left;margin-right:5px;"><%= s['name'] %></div>
+						<div style="float:left;">(<%= s['teamabbr'] %>)</div>
+						<div style="clear:both;"></div>
+						<div style="float:left;font-size:8pt;">
+							<div>12th Man Ratio: <span style="color:#EF6140;font-weight:bold;"><%= s['12thmannumber'] %></span></div>
+							<div>Total Pts: <%= s['seasonpoints'] %></div>
+							<div style="
+                                                        <%
+                                                        if (s['byeweek'] == @week.to_s)
+                                                                concat "color:#ffffff;background-color:#F97070;padding-left:5px;padding-right:5px;"
+                                                        end
+                                                        %>">Bye Week:
+                                                        <%= s['byeweek'] %></div>				
+						</div>
+						<div style="float:left;font-size:8pt;margin-left:7px;">
+							<div>Last Week: <%= s['1ago'] %></div>
+							<div>2 Weeks Ago: <%= s['2ago'] %></div>
+							<div>3 Weeks Ago: <%= s['3ago'] %></div>
+						</div>
+						<div style="float:left;font-size:8pt;margin-left:7px">
+							<div>Recent TDs: <%= s['1ago_tds'].to_i+s['2ago_tds'].to_i+s['3ago_tds'].to_i %></div>
+                                                        <div>Total T/O: <%= s['turnovers'] %></div>
+						</div>
+						<div style="clear:both;margin-bottom:10px;"></div>
+						<%
+						count = count + 1
+						if (count > 4)
+							break
+						end
+					end
+				end
+				%>
+			</div>
+			<%
+                        end
+                        %>
+		</div>
+		<div style="float:left;width:298px;background-image:url(/images/opacity70white.png);background-repeat:repeat;border-radius:10px;padding:15px;margin-bottom:15px;">
+			<div style="margin-bottom:10px;text-align:center;">Modify weighting to get your custom 12th Man Ratio</div>
+			<div style="float:left;font-size:6pt;margin-left:90px;">Low</div>
+			<div style="float:right;font-size:6pt;">High</div>
+			<div style="clear:both;margin-bottom:10px;"></div>
+			<div id="label_seasonpoints" style="font-size:8pt;width:85px;float:left;margin-bottom:10px;">Season Points</div>
+			<div id="slider_seasonpoints" style="float:left"></div>
+			<div style="clear:both;"></div>
+			<div id="label_recentpoints" style="font-size:8pt;width:85px;float:left;margin-bottom:10px;">Recent Points</div>
+			<div id="slider_recentpoints" style="float:left"></div>
+			<div style="clear:both;"></div>
+			<div id="label_defrank" style="font-size:8pt;width:85px;float:left;margin-bottom:10px;">Oppt. DEF Rank</div>
+			<div id="slider_defrank" style="float:left"></div>
+			<div style="clear:both;"></div>
+			<div id="label_recenttds" style="font-size:8pt;width:85px;float:left;margin-bottom:10px;">Recent TD's</div>
+			<div id="slider_recenttds" style="float:left"></div>
+			<div style="clear:both;"></div>
+			<div id="label_recenttouches" style="font-size:8pt;width:85px;float:left;margin-bottom:10px;">Recent Touches</div>
+			<div id="slider_recenttouches" style="float:left"></div>
+			<div style="clear:both;"></div>
+			<div style="background-color:#EF6140;color:#ffffff;cursor:pointer;padding:3px;text-align:center;border-radius:4px;font-size:8pt;" id="recalculate">Recalculate</div>
+		</div>
+		<div style="clear:both;"></div>
+		<hr>
+		<div>
+			<%= @output %>
+		</div>
+	</div>
+
+</body>
+</html>
+
+<script>
+
+	// create slider controls
+	var slider_seasonpoints = new dhtmlxSlider('slider_seasonpoints', {
+		'size' : 200,
+		'skin' : 'ball',
+		'vertical' : false,
+		'step' : 1,
+		'min' : 0,
+		'max' : 10,
+		'value' : 10
+	});
+	slider_seasonpoints.setImagePath('/external/dhtmlxSlider/imgs/');
+	slider_seasonpoints.init();
+
+	var slider_recentpoints = new dhtmlxSlider('slider_recentpoints', {
+		'size' : 200,
+		'skin' : 'ball',
+		'vertical' : false,
+		'step' : 1,
+		'min' : 0,
+		'max' : 10,
+		'value' : 10
+	});
+	slider_recentpoints.setImagePath('/external/dhtmlxSlider/imgs/');
+	slider_recentpoints.init();
+
+	var slider_defrank = new dhtmlxSlider('slider_defrank', {
+		'size' : 200,
+		'skin' : 'ball',
+		'vertical' : false,
+		'step' : 1,
+		'min' : 0,
+		'max' : 10,
+		'value' : 10
+	});
+	slider_defrank.setImagePath('/external/dhtmlxSlider/imgs/');
+	slider_defrank.init();
+
+	var slider_recenttds = new dhtmlxSlider('slider_recenttds', {
+		'size' : 200,
+		'skin' : 'ball',
+		'vertical' : false,
+		'step' : 1,
+		'min' : 0,
+		'max' : 10,
+		'value' : 10
+	});
+	slider_recenttds.setImagePath('/external/dhtmlxSlider/imgs/');
+	slider_recenttds.init();
+
+	var slider_recenttouches = new dhtmlxSlider('slider_recenttouches', {
+		'size' : 200,
+		'skin' : 'ball',
+		'vertical' : false,
+		'step' : 1,
+		'min' : 0,
+		'max' : 10,
+		'value' : 10
+	});
+	slider_recenttouches.setImagePath('/external/dhtmlxSlider/imgs/');
+	slider_recenttouches.init();
+
+	$('#label_recenttouches').hide();
+	$('#slider_recenttouches').hide();
+
+	// set default values
+	slider_seasonpoints.setValue(<%= @weights['seasonpoints'] %>);
+	slider_recentpoints.setValue(<%= @weights['recentpoints'] %>);
+	slider_defrank.setValue(<%= @weights['defrank'] %>);
+	slider_recenttds.setValue(<%= @weights['recenttds'] %>);
+	slider_recenttouches.setValue(<%= @weights['recenttouches'] %>);
+
+	// recalculate button click
+	$('#recalculate').click(function(){
+		console.log(slider_seasonpoints.getValue());
+		console.log(slider_recentpoints.getValue());
+
+		var vals = {
+			'seasonpoints' : slider_seasonpoints.getValue(),
+			'recentpoints' : slider_recentpoints.getValue(),
+			'defrank' : slider_defrank.getValue(),
+			'recenttds' : slider_recenttds.getValue(),
+			'recenttouches' : slider_recenttouches.getValue(),
+		};
+		vals = JSON.stringify(vals);
+		location = "/home/<%= session[:code] %>/"+vals
+	});
+</script>
