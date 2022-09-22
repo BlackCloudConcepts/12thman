@@ -10,7 +10,7 @@ class WelcomeController < ApplicationController
 	# http://json.parser.online.fr
 	
 	if (params[:step] == "1")
-		@consumer=::OAuth::Consumer.new( "dj0yJmk9MEdkWXZHdTFoTXdiJmQ9WVdrOVVrMDVZWHBoTlRBbWNHbzlNVEkyTVRnNU5UYzJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD1jZA--","992785c3d4bd3170262f8d544702f9fbcd48d5ea", {
+		@consumer=::OAuth::Consumer.new( "DELETED","DELETED", {
 			:site=>"https://api.login.yahoo.com",
 			:request_token_path=>"/oauth/v2/get_request_token",
 			:access_token_path => '/oauth/v2/get_token', 
